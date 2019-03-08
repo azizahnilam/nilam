@@ -14,15 +14,3 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-Route::get('kategori', function () {
-    return "halaman kategori";
-});
-
-Route::get('kategori/{id}', function ($id) {
-    return "halaman detail kategori " .$id;
-});
-
-//Route::resource('kategori','KategoriController');
-Route::resource('kategori','KategoriController')->except(['delete','destroy']) ;
