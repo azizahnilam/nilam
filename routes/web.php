@@ -26,3 +26,7 @@ Route::get('kategori/{id}', function ($id) {
 
 //Route::resource('kategori','KategoriController');
 Route::resource('kategori','KategoriController')->except(['delete','destroy']) ;
+
+Route::get('layout',function () {
+    return view('layout.master');
+});
