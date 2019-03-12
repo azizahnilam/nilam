@@ -24,9 +24,12 @@ Route::get('kategori/{id}', function ($id) {
     return "halaman detail kategori " .$id;
 });
 
+Route::get('dashboard', function () {
+    return view('dashboard/index');
+});
+
 //Route::resource('kategori','KategoriController');
 Route::resource('kategori','KategoriController')->except(['delete','destroy']) ;
 
-Route::get('layout',function () {
-    return view('layout.master');
-});
+
+
