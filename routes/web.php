@@ -32,4 +32,16 @@ Route::get('dashboard', function () {
 Route::resource('kategori','KategoriController')->except(['delete','destroy']) ;
 
 
+Route::get('master', function () {
+    return view('template.master');
+});
 
+
+Route::post('inputdata/store','KategoriController@store');
+Route::post('kategori/create','KategoriController@create');
+Route::get('/datakategori/destroy/{id}','KategoriController@destroy');
+//Route::resource('kategori','KategoriController');
+Route::resource('kategori','KategoriController');
+
+Route::get('datakategori/edit/{id}','KategoriController@edit');
+Route::post('datakategori/update','KategoriController@update');

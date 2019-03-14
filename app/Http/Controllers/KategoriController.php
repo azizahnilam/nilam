@@ -4,29 +4,46 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\kategori;
+use Illuminate\Support\Facades\DB;
 
-class KategoriController extends Controller
+class kategoriController extends Controller
 {
-    /**
+    
+/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kategori = kategori::all();
-        return view('kategori', compact('kategori'));  
-        dd($kategori); 
+        //mencari data
+        if ($request->has('cari')) {
+            $kategori = \App\Kategori::where('nama_kategori','LIKE','%'.$request->cari.'%')->get();
+        } else {
+            $kategori = kategori::all();
+        }
+        return view('dashboard.kategori', compact('kategori'));
     }
+    //   public function search(Request $request)
+    // {
+    //     $query = $request->input('cari');
+    //     $hasil = kategori::where('nama_kategori', 'LIKE', '%' . $query . '%')->paginate(10);
+    //     return view('dashboard.result', compact('hasil', 'query'));
+    // }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function store(Request $request)
     {
-        //
+         DB::table('kategori')->insert([
+             'nama_kategori' => $request->kategori
+            
+        ]);
+         return redirect('/kategori');
+        
     }
 
     /**
@@ -35,9 +52,9 @@ class KategoriController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function create(Request $request)
     {
-        //
+       
     }
 
     /**
@@ -49,6 +66,12 @@ class KategoriController extends Controller
     public function show($id)
     {
         //
+        $output = 'Daftar Kategori';
+        $kategori = kategori::get();
+        return view('show', array(
+          'kategori' => $output,
+          'kategori' => $kategori
+        ));
     }
 
     /**
@@ -59,7 +82,9 @@ class KategoriController extends Controller
      */
     public function edit($id)
     {
-        //
+    $kategori = DB::table('kategori')->where('id',$id)->get();
+    // passing data pegawai yang didapat ke view edit.blade.php
+    return view('dashboard.edit',['kategori' => $kategori]);
     }
 
     /**
@@ -69,9 +94,10 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        DB::table('kategori')->where('id',$request->id)->update(['nama_kategori'=>$request->nama_kategori]);
+        return redirect('/kategori');
     }
 
     /**
@@ -80,8 +106,10 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function destroy($id)
     {
-        //
+        DB::table('kategori') -> where('id',$id)->delete();
+return redirect('/kategori');
     }
 }
